@@ -16,8 +16,12 @@ namespace Zadanie1
 
         public void Print(in IDocument document)
         {
-            string documentName = document.GetFileName();
-            Console.WriteLine($"{DateTime.Now:dd MMM yyy} {documentName}");
+            if (state == IDevice.State.on)
+            {
+                PrintCounter++;
+                string documentName = document.GetFileName();
+                Console.WriteLine($"{DateTime.Now:dd MMM yyy} Print:  {documentName}");
+            }
         }
 
         public void Scan(out IDocument document, IDocument.FormatType formatType = IDocument.FormatType.TXT)
@@ -50,16 +54,16 @@ namespace Zadanie1
 
         public void ScanAndPrint()
         {
-            if(state == IDevice.State.on)
+            if (state == IDevice.State.on)
             {
                 Scan(out IDocument document);
                 Print(in document);
             }
         }
 
-       
 
-         void PowerOff()
+
+        void PowerOff()
         {
             if (GetState() == IDevice.State.off) return;
             state = IDevice.State.off;
@@ -69,6 +73,7 @@ namespace Zadanie1
         {
 
             if (GetState() == IDevice.State.on) return;
+            PrintCounter++;
             state = IDevice.State.on;
         }
 
